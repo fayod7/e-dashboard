@@ -6,14 +6,14 @@ interface IUser {
   lname: string;
   email: string;
   address: string;
-  role: "user" | "admin" | "moderator";
+  role: "user" | "admin" | "owner";
   isActive: boolean
 }
 
 const users: IUser[] = [
   { id: 1, fname: "Fayod", lname: 'Nozimov', email: "fayodnv@gmai.com", address: "Farg'ona", role: "user", isActive: true},
   { id: 2, fname: "Aliya", lname: 'Karimova', email: "aliya.k@gmail.com", address: "Tashkent", role: "admin", isActive: true},
-  { id: 3, fname: "Bekzod", lname: 'Rustamov', email: "bekzod.r@gmail.com", address: "Samarkand", role: "moderator",  isActive: true},
+  { id: 3, fname: "Bekzod", lname: 'Rustamov', email: "bekzod.r@gmail.com", address: "Samarkand", role: "admin",  isActive: true},
 ];
 
 const Users = () => {
