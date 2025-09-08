@@ -5,7 +5,7 @@ import { useAuth } from "../service/useAuth";
 import { useDispatch } from "react-redux";
 import { setToken } from "../store/authSlice";
 import { useNavigate } from "react-router-dom";
-
+import { AxiosError } from "axios";
 type FieldType = {
   email: string;
   password: string;
@@ -25,12 +25,19 @@ const Login = () => {
     })
   };
 
-  const message = signIn.error?.response?.data?.message 
+let message: string | string[] | null = null;
 
-  const errorMessage =
-    typeof message === "string"
-      ? message
-      : message?.map((i: string, inx: number) => <p key={inx}>{i}</p>);
+if (signIn.error) {
+  const error = signIn.error as AxiosError<{ message: string | string[] }>;
+  message = error.response?.data?.message || error.message || null;
+}
+
+const errorMessage =
+  typeof message === "string"
+    ? message
+    : Array.isArray(message)
+    ? message.map((m, i) => <p key={i}>{m}</p>)
+    : null;
 
   return (
     <div className="bg-slate-100 h-screen grid place-items-center">
