@@ -1,3 +1,4 @@
+import { Button } from 'antd';
 import { memo } from 'react';
 
 interface IProduct{
@@ -102,17 +103,21 @@ const Products = () => {
                <tr key={product.id} className={`hover:bg-gray-50 duration-200 hover:shadow-sm ${ product.id % 2 === 0 ? 'bg-gray-100' : 'bg-white' }`}>
                 <td className='px-4 py-3 text-[18px] text-gray-700'>{product.id}</td>
                 <td className='px-4 py-3 text-[18px] text-gray-700 line-clamp-1 flex items-center gap-1.5' title={product.title}>
-                  <img className='size-16 bg-transparent rounded-full border border-b-blue-700' src={product.images[0]} alt="" />
+                  <img className='size-16 bg-white rounded-full border border-b-blue-700' src={product.images[0]} alt="" />
                     <h2>
                       {product.title}
                     </h2>
                 </td>
-                <td className='px-4 py-3 text-[18px] text-gray-700 ' >{product.price}</td>
+                <td className='px-4 py-3 text-[18px] text-gray-700 ' >$ {product.price}</td>
                 <td className='px-4 py-3 text-[18px] text-gray-700 truncate'>{product.brand}</td>
                 <td className='px-4 py-3 text-[18px] text-gray-700'>{product.stock}</td>
                 <td className='px-4 py-3 text-[18px] text-gray-700'>{product.categoryId}</td>
-                <td className='px-4 py-3'><button className='bg-slate-600 text-white px-3 py-1.5 rounded-sm duration-200 hover:cursor-pointer hover:opacity-80'>Update</button></td>
-                <td className='px-4 py-3'><button className='bg-slate-600 text-white px-3 py-1.5 rounded-sm duration-200 hover:cursor-pointer hover:opacity-80'>Delete</button></td>
+                <td className='px-4 py-3'>
+                  <Button>Update</Button>
+                </td>
+                <td className='px-4 py-3'>
+                  <Button danger>Delete</Button>
+                </td>
             </tr>
             ))
           }

@@ -1,3 +1,4 @@
+import { Button } from 'antd';
 import { memo } from 'react';
 
 interface IUser {
@@ -42,8 +43,12 @@ const Users = () => {
                 <td className='px-4 py-3 text-[18px] text-gray-700 ' >{user.email}</td>
                 <td className='px-4 py-3 text-[18px] text-gray-700 truncate'>{user.address}</td>
                 <td className='px-4 py-3 text-[18px] text-gray-700'>{user.role}</td>
-                <td className='px-4 py-3'><button className='bg-slate-600 text-white px-3 py-1.5 rounded-sm duration-200 hover:cursor-pointer hover:opacity-80'>Update</button></td>
-                <td className='px-4 py-3'><button className='bg-slate-600 text-white px-3 py-1.5 rounded-sm duration-200 hover:cursor-pointer hover:opacity-80'>Delete</button></td>
+                <td className='px-4 py-3'>
+                  <Button>Update</Button>
+                </td>
+                <td className='px-4 py-3'>
+                  <Button danger>Delete</Button>
+                  </td>
             </tr>
             ))
         }
