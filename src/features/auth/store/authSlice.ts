@@ -6,10 +6,11 @@ interface IinitialState {
   user: any;
   key: string;
 }
+const storedUser = localStorage.getItem('user')
 
 const initialState: IinitialState = {
   token: localStorage.getItem("token") || null,
-  user: null,
+  user: storedUser ? JSON.parse(storedUser) : null,
   key: "",
 };
 
@@ -33,9 +34,11 @@ export const authSlice = createSlice({
     },
     setUser: (state, action: PayloadAction<any>) => {
       state.user = action.payload;
+      localStorage.setItem('user', JSON.stringify(state.user))
     },
     removeUser: (state) => {
       state.user = null;
+      localStorage.removeItem('user')
     },
   },
 });

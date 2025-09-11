@@ -4,9 +4,12 @@ const DashboardLayout = lazy(()=> import("../layout/DashboardLayout"))
 const Auth = lazy(()=> import("../features/auth/pages/Auth"))
 const Register = lazy(()=> import("../features/auth/pages/Register"))
 const Login = lazy(()=> import("../features/auth/pages/Login"))
+const Otp = lazy(()=> import("../features/auth/pages/Otp"))
 const Statistics = lazy(()=> import("../features/statistic/pages/Statistics"))
 const Users = lazy(()=> import("../features/user/pages/Users"))
 const Products = lazy(()=> import("../features/product/pages/Products"))
+const AllProducts = lazy(()=> import("../features/product/pages/AllProducts"))
+const ProductsCategory = lazy(()=> import("../features/product/pages/ProductCategory"))
 
 const AppRoutes = () => {
   return (
@@ -25,13 +28,18 @@ const AppRoutes = () => {
                 },
                 {
                   path: 'products',
-                  element: <Products/>
+                  element: <Products/>,
+                  children: [
+                    {index: true, element: <AllProducts/>},
+                    {path: 'category', element: <ProductsCategory/>},
+                  ]
                 },
               ]
             }
         ]},
         {path: "/login", element: <Login/>},
-        {path: "/register", element: <Register/>}
+        {path: "/register", element: <Register/>},
+        {path: "/otp", element: <Otp/>},
     ])
   )
 }

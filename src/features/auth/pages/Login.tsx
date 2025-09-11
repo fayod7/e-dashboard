@@ -2,10 +2,10 @@ import { memo } from "react";
 import type { FormProps } from "antd";
 import { Alert, Button, Form, Input } from "antd";
 import { useAuth } from "../service/useAuth";
-import { useDispatch } from "react-redux";
-import { setToken } from "../store/authSlice";
-import { useNavigate } from "react-router-dom";
-import { AxiosError } from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { removeUser, setToken } from "../store/authSlice";
+import { Link, useNavigate } from "react-router-dom";
+import type { RootState } from "../../../app/store";
 type FieldType = {
   email: string;
   password: string;
@@ -15,29 +15,24 @@ const Login = () => {
   const { signIn } = useAuth();
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const { user } = useSelector((state: RootState) => state.auth)
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
     signIn.mutate(values, {
       onSuccess: (res) => {
         dispatch(setToken(res.data))
+        dispatch(removeUser())
         navigate("/")
       }
     })
   };
 
-let message: string | string[] | null = null;
-
-if (signIn.error) {
-  const error = signIn.error as AxiosError<{ message: string | string[] }>;
-  message = error.response?.data?.message || error.message || null;
-}
+const message = signIn.error?.response?.data?.message
 
 const errorMessage =
   typeof message === "string"
     ? message
-    : Array.isArray(message)
-    ? message.map((m, i) => <p key={i}>{m}</p>)
-    : null;
+    : message?.map((i: string, inx: number) => <p key={inx}>{i}</p>);
 
   return (
     <div className="bg-slate-100 h-screen grid place-items-center">
@@ -48,6 +43,7 @@ const errorMessage =
           onFinish={onFinish}
           autoComplete="off"
           layout="vertical"
+          initialValues={user ? {email: user.email, password: user.password} : {}}
         >
           <Form.Item<FieldType>
             label="Email"
@@ -74,6 +70,7 @@ const errorMessage =
               Submit
             </Button>
           </Form.Item>
+          <Link to={'/register'}>Register</Link>
         </Form>
       </div>
     </div>

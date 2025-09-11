@@ -1,8 +1,19 @@
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import { Outlet } from 'react-router-dom';
+import { useAuth } from '../features/auth/service/useAuth';
+import { useDispatch } from 'react-redux';
+import { removeToken } from '../features/auth/store/authSlice';
 
 const DashboardLayout = () => {
+  const { getProfile } = useAuth()
+  const {isError} = getProfile
+  const dispatch = useDispatch()
+  useEffect(()=>{
+    if(isError) {
+      dispatch(removeToken())
+    }
+  }, [isError])
   return (
     <div className="flex overflow-x-hidden">
       <Sidebar/>
