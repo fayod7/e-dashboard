@@ -7,16 +7,17 @@ import { removeToken } from '../features/auth/store/authSlice';
 
 const DashboardLayout = () => {
   const { getProfile } = useAuth()
-  const {isError} = getProfile
+  const { isError, data } = getProfile
   const dispatch = useDispatch()
   useEffect(()=>{
     if(isError) {
       dispatch(removeToken())
     }
   }, [isError])
+  
   return (
     <div className="flex overflow-x-hidden">
-      <Sidebar/>
+      <Sidebar user={data}/>
       <main className='flex-1'>
         <Outlet/>
         

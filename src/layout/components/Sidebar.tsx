@@ -1,15 +1,33 @@
-import { ChartNoAxesCombined, ShoppingBag, ShoppingBasket, Users } from 'lucide-react';
-import { memo } from 'react';
+import { ChartNoAxesCombined, ShoppingBasket, Users } from 'lucide-react';
+import { memo, type FC } from 'react';
 import { NavLink } from 'react-router-dom';
 
-const Sidebar = () => {
+
+interface User {
+  fname: string;
+  lname?: string;
+  email: string;
+  address?: string;
+  id: number;
+}
+
+interface Props {
+  user: User;
+}
+
+const Sidebar:FC<Props> = ( { user } ) => {
+  
   return (
-    <div className="w-[250px] h-screen bg-teal-900 text-white sticky top-0 left-0">
-      <div className='flex w-full bg-[#1e40af] py-2 px-1 justify-center items-center gap-2'>
-        <ShoppingBag />
-        <h2 className='text-2xl'>e-commerce</h2>
+    <div className="w-[250px] min-h-screen bg-teal-900 text-white sticky top-0 left-0 z-20 ">
+      <div className='flex w-full bg-[#1e40af] py-2 px-1 items-center gap-2'>
+        <div className='rounded-full grid place-items-center bg-slate-800 size-7 font-semibold'>
+          {user?.fname?.slice(0, 1)}
+        </div>
+        <div className='text-xl'>
+          {user?.fname}
+        </div>
       </div>
-      <ul className='flex flex-col overflow-hidden mt-5'>
+      <ul className='flex flex-col mt-5 overflow-hidden'>
         <li>
           <NavLink to={''} className={'flex gap-2 items-center sidebar__link'}>
           <ChartNoAxesCombined className='size-7'/>

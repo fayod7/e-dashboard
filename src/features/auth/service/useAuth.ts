@@ -6,7 +6,8 @@ export const useAuthKey = "useAuthKey"
 export const useAuth = ()=>{
     const getProfile = useQuery<any, any>({
         queryKey: [useAuthKey],
-        queryFn: () => api.get('auth/me').then(res => res.data),
+        queryFn: () => api.get('auth/me').then(res => res.data)
+        .then(data => data.data),
         retry: 0
     });
    // [SuccessType, ErrorType, BodyType]

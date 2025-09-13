@@ -38,3 +38,45 @@
   text-decoration: underline;
   transform: translateX(5px);
 }
+
+.custom-pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.custom-pagination .ant-pagination-item {
+  background-color: #fff !important;
+  border: 1px solid #d9d9d9 !important;
+  border-radius: 6px !important;
+  transition: all 0.2s ease;
+}
+
+.custom-pagination .ant-pagination-item a {
+  color: #333 !important;
+}
+
+.custom-pagination .ant-pagination-item:hover {
+  border-color: dodgerblue !important;
+}
+
+
+.custom-pagination .ant-pagination-item-active {
+  background-color: dodgerblue !important;
+  border-color: dodgerblue !important;
+}
+
+.custom-pagination .ant-pagination-item-active a {
+  color: #fff !important;
+}
+
+.custom-pagination .ant-pagination-prev .anticon,
+.custom-pagination .ant-pagination-next .anticon {
+  color: #333 !important;
+  transition: color 0.2s ease;
+}
+
+.custom-pagination .ant-pagination-prev:hover .anticon,
+.custom-pagination .ant-pagination-next:hover .anticon {
+  color: dodgerblue !important;
+}

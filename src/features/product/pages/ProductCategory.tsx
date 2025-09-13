@@ -1,5 +1,5 @@
 import { memo, useState, type FC } from 'react';
-import { useProduct } from '../service/useProduct';
+import { useCategory } from '../service/useCategory';
 import { Button, Input, Modal, Form } from 'antd';
 import { Pencil, Plus, Trash } from 'lucide-react';
 import type { FormProps } from 'antd';
@@ -15,7 +15,7 @@ type FieldType = {
 
 const ProductCategory:FC = () => {
   const [form] = Form.useForm(); 
-  const { getAllCategories, createMutation, deleteMutation, updateMutation } = useProduct()
+  const { getAllCategories, createMutation, deleteMutation, updateMutation } = useCategory()
   const { data } = getAllCategories()
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [editingCategory, setEditingCategory] = useState<any>(null)
@@ -69,9 +69,9 @@ const ProductCategory:FC = () => {
         </thead>
         <tbody className='bg-white divide-y divide-gray-200'>
           {
-            data?.data?.map((category: ICategory) => (
-               <tr key={category.id} className={`hover:bg-gray-50 duration-200 hover:shadow-sm ${ category.id % 2 === 0 ? 'bg-gray-100' : 'bg-white' }`}>
-                <td className='px-7 py-3 text-[18px] text-gray-700'>{category.id}</td>
+            data?.data?.map((category: ICategory, inx: number) => (
+               <tr key={category.id} className={`hover:bg-gray-50 duration-200 hover:shadow-sm ${ inx  % 2 === 0 ? 'bg-gray-100' : 'bg-white' }`}>
+                <td className='px-7 py-3 text-[18px] text-gray-700'>{inx}</td>
                 <td className='px-4 py-3 text-[18px] text-gray-700 flex-1 w-full'>
                       {category.name}                  
                 </td>
