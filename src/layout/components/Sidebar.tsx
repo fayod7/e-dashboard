@@ -1,4 +1,4 @@
-import { ChartNoAxesCombined, ShoppingBasket, Users } from 'lucide-react';
+import { ChartNoAxesCombined, ShoppingBasket, UserRoundPen, Users } from 'lucide-react';
 import { memo, type FC } from 'react';
 import { NavLink } from 'react-router-dom';
 
@@ -44,6 +44,12 @@ const Sidebar:FC<Props> = ( { user } ) => {
           <NavLink to={'users'} className={'flex gap-2 items-center sidebar__link'}>
           <Users className='size-7'/>
           <span className='font-semibold text-[22px]'>Users</span>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to={'myprofile'} className={'flex gap-2 items-center sidebar__link'}>
+          <UserRoundPen className='size-7'/>
+          <span className='font-semibold text-[22px]'>Edit Profile</span>
           </NavLink>
         </li>
       </ul>

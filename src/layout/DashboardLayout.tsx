@@ -7,7 +7,7 @@ import { removeToken } from '../features/auth/store/authSlice';
 
 const DashboardLayout = () => {
   const { getProfile } = useAuth()
-  const { isError, data } = getProfile
+  const { isError, data } = getProfile()
   const dispatch = useDispatch()
   useEffect(()=>{
     if(isError) {

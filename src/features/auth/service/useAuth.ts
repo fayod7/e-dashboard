@@ -4,7 +4,8 @@ import { api } from "../../../shared/api"
 export const useAuthKey = "useAuthKey"
 
 export const useAuth = ()=>{
-    const getProfile = useQuery<any, any>({
+
+    const getProfile =() => useQuery<any, any>({
         queryKey: [useAuthKey],
         queryFn: () => api.get('auth/me').then(res => res.data)
         .then(data => data.data),
