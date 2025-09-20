@@ -22,7 +22,7 @@ const Login = () => {
       onSuccess: (res) => {
         dispatch(setToken(res.data.accessToken))
         if(res.data.user.role === 'user') {  
-          open(`https://next-production-neon.vercel.app//verify?q=${btoa(JSON.stringify(values))}`)
+          open(`http://localhost:3000/verify?q=${btoa(JSON.stringify(values))}`)
           //vercel link ni qoooy
         } else {
           navigate("/")
