@@ -20,9 +20,16 @@ const Login = () => {
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
     signIn.mutate(values, {
       onSuccess: (res) => {
-        dispatch(setToken(res.data))
+        dispatch(setToken(res.data.accessToken))
+        if(res.data.user.role === 'user') {  
+          open(`http://localhost:3000/verify?q=${btoa(JSON.stringify(values))}`)
+          //vercel link ni qoooy
+        } else {
+          navigate("/")
+        }
         dispatch(removeUser())
-        navigate("/")
+          // atob - decode
+          // btoa - encode
       }
     })
   };
@@ -35,7 +42,7 @@ const errorMessage =
     : message?.map((i: string, inx: number) => <p key={inx}>{i}</p>);
 
   return (
-    <div className="bg-slate-100 h-screen grid place-items-center">
+    <div className="bg-blue-600 h-screen grid place-items-center">
       <div className="max-w-[450px] w-full bg-white p-6 rounded-xl shadow">
         <h2 className="text-2xl font-bold mb-4">Sign in</h2>
         <Form
