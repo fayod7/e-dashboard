@@ -11,11 +11,7 @@ interface IUser {
   role: "user" | "admin" | "owner";
   isActive: boolean
 }
-// const users: IUser[] = [
-//   { id: 1, fname: "Fayod", lname: 'Nozimov', email: "fayodnv@gmai.com", address: "Farg'ona", role: "user", isActive: true},
-//   { id: 2, fname: "Aliya", lname: 'Karimova', email: "aliya.k@gmail.com", address: "Tashkent", role: "admin", isActive: true},
-//   { id: 3, fname: "Bekzod", lname: 'Rustamov', email: "bekzod.r@gmail.com", address: "Samarkand", role: "admin",  isActive: true},
-// ];
+
 
 const Users = () => {
   const { getUsers } = useUser()
@@ -36,9 +32,9 @@ const Users = () => {
         </thead>
         <tbody className='bg-white divide-y divide-gray-200'>
         {
-            data?.data?.map((user:IUser) => (
-            <tr key={user.id} className={`hover:bg-gray-50 duration-200 hover:shadow-sm ${ user.id % 2 === 0 ? 'bg-gray-100' : 'bg-white' }`}>
-                <td className='px-4 py-3 text-[18px] text-gray-700'>{user.id}</td>
+            data?.data?.map((user:IUser, inx: number) => (
+            <tr key={user.id} className={`hover:bg-gray-50 duration-200 hover:shadow-sm ${ inx % 2 === 0 ? 'bg-gray-100' : 'bg-white' }`}>
+                <td className='px-4 py-3 text-[18px] text-gray-700'>{inx + 1}</td>
                 <td className='px-4 py-3 text-[18px] text-gray-700' >
                     {`${user.fname} ${user.lname}`}
                 </td>

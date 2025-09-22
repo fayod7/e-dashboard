@@ -1,7 +1,7 @@
-import { ChartNoAxesCombined, ShoppingBasket, UserRoundPen, Users } from 'lucide-react';
+import { ChartNoAxesCombined, ShoppingBasket, Users } from 'lucide-react';
 import { memo, type FC } from 'react';
 import { NavLink } from 'react-router-dom';
-
+// import { UserRoundPen } from 'lucide-react'
 
 interface User {
   fname: string;
@@ -21,7 +21,7 @@ const Sidebar:FC<Props> = ( { user } ) => {
     <div className="w-[250px] min-h-screen bg-teal-900 text-white sticky top-0 left-0 z-20 ">
       <div className='flex w-full bg-[#1e40af] py-2 px-1 items-center gap-2'>
         <div className='rounded-full grid place-items-center bg-slate-800 size-7 font-semibold'>
-          {user?.fname?.slice(0, 1)}
+          {user?.fname?.slice(0, 1).toUpperCase()}
         </div>
         <div className='text-xl'>
           {user?.fname}
@@ -46,12 +46,12 @@ const Sidebar:FC<Props> = ( { user } ) => {
           <span className='font-semibold text-[22px]'>Users</span>
           </NavLink>
         </li>
-        <li>
+        {/* <li>
           <NavLink to={'myprofile'} className={'flex gap-2 items-center sidebar__link'}>
           <UserRoundPen className='size-7'/>
           <span className='font-semibold text-[22px]'>Edit Profile</span>
           </NavLink>
-        </li>
+        </li> */}
       </ul>
     </div>
   );

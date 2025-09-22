@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { removeUser, setToken } from "../store/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 import type { RootState } from "../../../app/store";
+import { production_link } from "../../../links";
 type FieldType = {
   email: string;
   password: string;
@@ -22,7 +23,7 @@ const Login = () => {
       onSuccess: (res) => {
         dispatch(setToken(res.data.accessToken))
         if(res.data.user.role === 'user') {  
-          open(`http://localhost:3000/verify?q=${btoa(JSON.stringify(values))}`)
+          open(`${production_link}?q=${btoa(JSON.stringify(values))}`)
           //vercel link ni qoooy
         } else {
           navigate("/")

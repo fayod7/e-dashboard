@@ -3,7 +3,10 @@ import { Button, Modal, Select } from 'antd';
 import { Pencil, Plus, Trash } from 'lucide-react';
 import { useProduct } from '../service/useProduct';
 import ProductsForm from './ProductsForm';
-
+import ProductsSkeleton from './ProductsSkeleton';
+import { Image } from 'antd';
+import { Pagination } from "antd";
+import { jwtDecode, type JwtPayload } from "jwt-decode";
 export interface Category {
   id: number;
   name: string;
@@ -29,13 +32,24 @@ export interface IProduct {
   category?: Category | { id?: number; name?: string };
   user?: ProductUser;
 }
-
+interface CustomJwtPayload extends JwtPayload {
+  id: number;
+  role: string
+}
 const ProductsTable: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [order, setOrder] = useState<string>('latest')
+   const [skip, setSkip] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(8)
+  const token = localStorage.getItem('token')
+  const decodedValue = jwtDecode<CustomJwtPayload>(token || '')
+  
+  console.log(decodedValue);
+  
   // const [editingCategory, setEditingCategory] = useState<any>(null)
   const { getAllProducts, deleteProductMutation } = useProduct()
-  const { data } = getAllProducts({ limit: 10, order })
+  const { data, isLoading } = getAllProducts({ limit, order, skip })
   console.log(data);
   const imagesUrl = 'https://api.errorchi.uz/product/image/'
   const showModal = () => {
@@ -50,9 +64,21 @@ const ProductsTable: FC = () => {
   //   // form.setFieldsValue({ name: category.name });
   //   setIsModalOpen(true);
   // }
+  if(isLoading){
+    return <ProductsSkeleton/>
+  }
   const handleChange = (value: string) => {
     setOrder(value)
   };
+  const handlePageChange = (value:number) => {
+    const selected = value * limit
+    setSkip(selected)
+    setPage(value)
+  }
+  const handleLimitChange = (value: string) => {
+    setLimit(Number(value));
+  };
+  
   return (
     <div className="w-full px-4 py-5">
       <div className='flex justify-between w-full items-center mb-2' >
@@ -69,56 +95,58 @@ const ProductsTable: FC = () => {
         />
         <Button onClick={showModal} type='primary' ghost> <Plus className='size-4' />Add Product</Button>
       </div>
-      <table className='min-w-full divide-y divide-gray-200 border border-gray-200 '>
-        <thead className='bg-gray-100 shadow-sm'>
-          <tr>
-            <th className='px-4 py-4 text-left text-[18px] font-semibold text-gray-700 '>№</th>
-            <th className='px-4 py-4 text-left text-[18px] font-semibold text-gray-700 '>Title</th>
-            <th className='px-4 py-4 text-left text-[18px] font-semibold text-gray-700 '>Price</th>
-            <th className='px-4 py-4 text-left text-[18px] font-semibold text-gray-700 '>Brand</th>
-            <th className='px-4 py-4 text-left text-[18px] font-semibold text-gray-700 '>Quantity</th>
-            <th className='px-4 py-4 text-left text-[18px] font-semibold text-gray-700 '>Category</th>
-            <th className='px-4 py-4 text-left text-[18px] font-semibold text-gray-700 '>Update</th>
-            <th className='px-4 py-4 text-left text-[18px] font-semibold text-gray-700 '>Delete</th>
-          </tr>
-        </thead>
-        <tbody className='bg-white divide-y divide-gray-200'>
+     <div className='container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 pt-4'>
           {
-            data?.allProducts?.map((product: IProduct, inx: number) => (
-              <tr key={product.id} className={`hover:bg-gray-50 duration-200 hover:shadow-sm ${inx % 2 === 0 ? 'bg-gray-100' : 'bg-white'}`}>
-                <td className='px-4 py-3 text-[18px] text-gray-700'>{inx + 1}</td>
-                <td className='px-4 py-3 text-[18px] text-gray-700 line-clamp-1 flex items-center gap-1.5' title={product.title}>
-                  {
-                    product?.images ?
-                      <img className='size-16 bg-white rounded-full border border-b-blue-700 object-cover' src={imagesUrl + product?.images?.[0]} alt="" />
+            data?.allProducts?.map((product: IProduct) => (
+              <div key={product.id} className='bg-white aspect-[3/4] flex flex-col border-gray-200 overflow-hidden group border'>
+                <div className='w-full overflow-hidden h-[300px] relative group bg-[#F0EEED]'>
+                   {
+                    product?.images && product?.images.length > 0 ?
+                     <Image
+    src={imagesUrl + product?.images?.[0]}
+    className="!w-full !h-full object-cover"
+    
+  />
                       :
-                      <div className='size-16 bg-gray-300 rounded-full border border-b-blue-700'>
+                      <div className='w-full grid place-items-center h-full'>
                         <p className='text-center'>No Image</p>
                       </div>
                   }
-                  <h2>
-                    {product?.title}
-                  </h2>
-                </td>
-                <td className='px-4 py-3 text-[18px] text-gray-700 ' >$ {product?.price}</td>
-                <td className='px-4 py-3 text-[18px] text-gray-700 truncate'>{product?.brand}</td>
-                <td className='px-4 py-3 text-[18px] text-gray-700'>{product?.stock}</td>
-                <td className='px-4 py-3 text-[18px] text-gray-700'>{product?.category?.name}</td>
-                <td className='px-4 py-3'>
-                  <Button type='primary' ghost>
-                    <Pencil className='size-4' /> Update
-                  </Button>
-                </td>
-                <td className='px-4 py-3'>
-                  <Button onClick={() => handleProductDelete(product.id)} danger>
-                    <Trash className='size-4' />  Delete
-                  </Button>
-                </td>
-              </tr>
+                </div>
+                <div className='flex flex-col gap-1.5 p-4 bg-[#F4F5F7]'>
+                     <h3 className="text-lg font-semibold text-gray-900 truncate">
+          {product.title}
+        </h3>
+        <strong className="text-xl">
+          {product.price.toLocaleString()} UZS
+        </strong>
+          <p className="italic">{product?.brand}</p>
+           {(decodedValue?.id === product.user?.id || decodedValue?.role === 'owner') && (
+  <div className="flex gap-2.5">
+    <Button className='w-full' type='primary' ghost>
+      <Pencil className='size-4' /> Update
+    </Button>
+    <Button className='w-full' onClick={() => handleProductDelete(product.id)} danger>
+      <Trash className='size-4' /> Delete
+    </Button>
+  </div>
+)}
+
+                </div>
+              </div>
             ))
           }
-        </tbody>
-      </table>
+     </div>
+              
+         <div className='w-full mt-6'> 
+          <Pagination total={data?.total} 
+          className='custom-pagination'
+          onChange={handlePageChange}
+          showSizeChanger={false}
+          current={page}
+          />
+         </div>
+       
       {
         isModalOpen &&
         <Modal

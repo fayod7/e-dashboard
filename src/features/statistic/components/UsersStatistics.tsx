@@ -1,35 +1,56 @@
+
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Line } from 'react-chartjs-2';
 import { memo } from 'react';
-import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
-import { Card, Col, Row, Statistic } from 'antd';
-const UsersStatistics = () => {
-  return (
- <Row gutter={16}>
-    <Col span={12}>
-      <Card variant="borderless">
-        <Statistic
-          title="Active"
-          value={11.28}
-          precision={2}
-          valueStyle={{ color: '#3f8600' }}
-          prefix={<ArrowUpOutlined />}
-          suffix="%"
-        />
-      </Card>
-    </Col>
-    <Col span={12}>
-      <Card variant="borderless">
-        <Statistic
-          title="Idle"
-          value={9.3}
-          precision={2}
-          valueStyle={{ color: '#cf1322' }}
-          prefix={<ArrowDownOutlined />}
-          suffix="%"
-        />
-      </Card>
-    </Col>
-  </Row>
-  );
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+export const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'top' as const,
+    },
+    title: {
+      display: true,
+      text: 'Product sales trend description',
+    },
+  },
 };
 
-export default memo(UsersStatistics);
+const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+
+export const data = {
+  labels,
+  datasets: [
+    {
+      label: 'Monthly overview',
+      data: [10, 15, 20, 28, 35, 42, 50],
+      borderColor: 'rgb(53, 162, 235)',
+      backgroundColor: 'rgb(53, 162, 235, 0.5)',
+    }
+  ],
+};
+
+const UsersStatistics = () => {
+  return <Line options={options} data={data} />;
+}
+
+export default memo(UsersStatistics)
