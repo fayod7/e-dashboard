@@ -41,7 +41,7 @@ const ProductsTable: FC = () => {
   const [order, setOrder] = useState<string>('latest')
    const [skip, setSkip] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
-  const [limit, setLimit] = useState<number>(8)
+  // const [limit, setLimit] = useState<number>(8)
   const token = localStorage.getItem('token')
   const decodedValue = jwtDecode<CustomJwtPayload>(token || '')
   
@@ -49,7 +49,7 @@ const ProductsTable: FC = () => {
   
   // const [editingCategory, setEditingCategory] = useState<any>(null)
   const { getAllProducts, deleteProductMutation } = useProduct()
-  const { data, isLoading } = getAllProducts({ limit, order, skip })
+  const { data, isLoading } = getAllProducts({ limit: 8, order, skip })
   console.log(data);
   const imagesUrl = 'https://api.errorchi.uz/product/image/'
   const showModal = () => {
@@ -71,13 +71,13 @@ const ProductsTable: FC = () => {
     setOrder(value)
   };
   const handlePageChange = (value:number) => {
-    const selected = value * limit
+    const selected = value * 8
     setSkip(selected)
     setPage(value)
   }
-  const handleLimitChange = (value: string) => {
-    setLimit(Number(value));
-  };
+  // const handleLimitChange = (value: string) => {
+  //   setLimit(Number(value));
+  // };
   
   return (
     <div className="w-full px-4 py-5">
